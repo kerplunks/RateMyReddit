@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RateMyReddit</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<script src="js/bootstrap.js"></script>
+	<script src="js/script.js"></script>
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<h1>RateMyReddit</h1>
+<div id="buttonDiv">
+<button onclick="myFunction()">Select section</button>
+</div>
+<h2 id="demo"></h2>
+<div id="images">
+
+</div>
+<div id="vote">
+<img src="images/no.png" onclick="upvote = -1"></img>
+<img src="images/yes.png" onclick="upvote = 1" height="50" width="50"></img>
+</div>
+</body>
+
+<script>
+function myFunction() {
+    var userSelection = prompt("Please enter what part of reddit you want to visit", "aww");
+	var upvote = 0;
+	
+	document.getElementById("demo").innerHTML = "You searched for: " + userSelection;
+	document.getElementById("images").innerHTML = "";
+
+$.getJSON("http://www.reddit.com/r/" + userSelection + "/.json?jsonp=?", function(data) { 
+    $.each(data.data.children, function(i,item){
+		item.data.url = item.data.url + ".jpg";
+	
+		
+		$("<img/>").attr("src", item.data.url).appendTo("#images");
+		
+		//$( "#vote" ).click(function() {
+		//	.attr("style", "display: none");
+		//});
+    });
+});
+}
+</script>
+</html>
